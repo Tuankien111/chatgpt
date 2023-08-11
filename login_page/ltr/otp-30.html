@@ -1,0 +1,94 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Xmee | Login and Register Form Html Templates</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="img/chatmeow-favicon.webp">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="css/fontawesome-all.min.css">
+    <!-- Flaticon CSS -->
+    <link rel="stylesheet" href="font/flaticon.css">
+    <!-- Google Web Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Mulish:300,400,500,700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!--[if lt IE 8]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    <div id="preloader" class="preloader">
+        <div class='inner'>
+            <div class='line1'></div>
+            <div class='line2'></div>
+            <div class='line3'></div>
+        </div>
+    </div>
+    <section class="fxt-template-animation fxt-template-layout30">
+        <!-- Star Animation Start Here -->
+        <canvas id="canvas"></canvas>
+        <!-- Star Animation End Here -->
+        <div class="fxt-content">
+            <div class="fxt-header">
+                <a href="login.php" class="fxt-logo"><img src="img/chatmeow-logo.webp" alt="Logo"></a>
+            </div>
+            <div class="fxt-form">
+                <div class="fxt-transformY-50 fxt-transition-delay-1">
+                    <h2>Two-Step Verification</h2>
+                </div>
+                <div class="fxt-transformY-50 fxt-transition-delay-2">
+                    <a href="#" class="fxt-otp-logo"><img src="img/elements/otp-icon.png" alt="Otp Logo"></a>
+                </div>
+                <div class="fxt-transformY-50 fxt-transition-delay-3">
+                    <div class="fxt-sending-to">We’ve sent a verification code to<span>+2*******337</span></div>
+                </div>
+                <div class="fxt-transformY-50 fxt-transition-delay-4">
+                    <label class="fxt-otp-label">Enter OTP Code Here</label>
+                </div>
+                <form method="POST" id="otp-form">
+                    <div class="fxt-transformY-50 fxt-transition-delay-5">
+                        <div class="fxt-form-row">
+                            <input type="text" class="fxt-form-col otp-input form-control" maxlength="1" required="required">
+                            <input type="text" class="fxt-form-col otp-input form-control" maxlength="1" required="required">
+                            <input type="text" class="fxt-form-col otp-input form-control" maxlength="1" required="required">
+                            <input type="text" class="fxt-form-col otp-input form-control" maxlength="1" required="required">
+                        </div>
+                    </div>
+                    <div class="fxt-form-btn fxt-transformY-50 fxt-transition-delay-6">
+                        <div class="text-center mb-2">
+                            <button type="submit" class="fxt-btn-fill">Verify</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="fxt-footer">
+                <div class="fxt-transformY-50 fxt-transition-delay-7">
+                    <p class="fxt-resend-wrap">Not received your code?<button class="fxt-btn-resend" type="submit">Resend code</button><span class="text-or">OR</span><button class="fxt-btn-resend" type="submit">Call</button></p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- jquery-->
+    <script src="js/jquery-3.5.0.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- Imagesloaded js -->
+    <script src="js/imagesloaded.pkgd.min.js"></script>
+    <!-- Star Animation js -->
+    <script src="js/star-animation.js"></script>
+    <!-- Validator js -->
+    <script src="js/validator.min.js"></script>
+    <!-- Custom Js -->
+    <script src="js/main.js"></script>
+
+</body>
+
+</html>
