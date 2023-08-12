@@ -33,8 +33,8 @@
     $amount = $_POST['price']; //=> Thành tiền đơn hàng
     // $amount = 30000;
     $orderId = time() .""; //=> Mã đơn hàng
-    $redirectUrl = "http://localhost/chatGPT/payment_page/assets/api/api_result.php"; // => Sau khi thanh toán thành công trả về
-    $ipnUrl = "http://localhost/chatGPT/payment_page/assets/api/api_result.php";
+    $redirectUrl = "http://localhost/chatGPT2/payment_page/assets/api/api_result.php"; // => Sau khi thanh toán thành công trả về
+    $ipnUrl = "http://localhost/chatGPT2/payment_page/assets/api/api_result.php";
     $extraData = $_POST['key'];
 
 

@@ -1,5 +1,5 @@
 <!-- Sau khi thanh toán xong trả về trang này -->
-
+<?php session_start(); ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -29,10 +29,10 @@
       <p class="lead"><strong>Please check your email</strong> for further instructions on how to complete your account setup.</p>
       <hr class="my-4">
       <p>
-        Having trouble? <a href="#">Contact us</a>
+          Please login again ! | endday : <?=$_SESSION['end_date']?>
       </p>
       <p class="lead">
-        <a class="btn btn-primary btn-sm" href="http://localhost/chatGPT/app.php" role="button">Continue to homepage</a>
+        <a class="btn btn-primary btn-sm" href="http://localhost/chatGPT2/login_page/ltr/login.php" role="button">Continue to homepage</a>
       </p>
     </div>
   </div>

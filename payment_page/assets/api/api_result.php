@@ -16,41 +16,129 @@ $db_name = 'app';
   // Set character set and collation
      mysqli_set_charset($conn, 'utf8mb4');
 
-// Kiểm tra kết quả giao dịch $_GET['resultCode]
-if(isset($_GET['resultCode']) && $_GET['resultCode'] ==0) {
-    $exetraData =  $_GET['extraData'];
+
+    // $resultCode ="0";
+    $exetraData = $_GET['extraData'];
+    $account_type = $_SESSION['account_type'];
     $email = $_SESSION['email'];
+    $pro_end = $_SESSION['end_date'];
 
-    // Kiểm tra Pro_end_date
-    
-    
-    if ($exetraData == 1) {
-       $update_query = "UPDATE `app`.`users` 
-       SET
-        `account_type` = 'pro', 
-        `pro_start_date` = CURRENT_TIMESTAMP,
-        `pro_end_date` = DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 1 MONTH)
-       WHERE
-        email = '$email'";
-       mysqli_query($conn, $update_query);
-       $_SESSION['account_type'] = 'pro';
-    }
 
-    if ($exetraData == 6) {
-        $update_query = "UPDATE `app`.`users` 
-       SET
-        `account_type` = 'pro', 
-        `pro_start_date` = CURRENT_TIMESTAMP,
-        `pro_end_date` = DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 6 MONTH)
-       WHERE
-        email = '$email'";
-       mysqli_query($conn, $update_query);
-       $_SESSION['account_type'] = 'pro';
-    }
-}   
+// Check resultCode
+    if(isset($_GET['resultCode']) && $_GET['resultCode'] == 0) {
+        // Check account_type: free => up to pro
+        if($account_type == "free") {
+            // Nếu là người dùng free => kiểm tra gói nâng cấp 
+            if ($exetraData == 1) {
+                $update_query = "UPDATE `app`.`users` 
+                SET
+                `account_type` = 'pro', 
+                `pro_start_date` = CURRENT_TIMESTAMP,
+                `pro_end_date` = DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 1 MONTH),
+                `last_payment` = CURRENT_TIMESTAMP
+                WHERE
+                email = '$email'";
+                mysqli_query($conn, $update_query);
+                $account_type = 'pro';
+                
+            }
+
+            if ($exetraData == 6) {
+                $update_query = "UPDATE `app`.`users` 
+                SET
+                `account_type` = 'pro', 
+                `pro_start_date` = CURRENT_TIMESTAMP,
+                `pro_end_date` = DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 6 MONTH),
+                `last_payment` = CURRENT_TIMESTAMP
+                WHERE
+                email = '$email'";
+                mysqli_query($conn, $update_query);
+                $account_type = 'pro';
+
+                
+            }
+        }
+        
+        // Check account_type: pro => update pro_start / pro_end
+        else {
+            $today = date('Y-m-d H:i:s');
+            $checkproend = "SELECT `pro_end_date` 
+                           FROM `users` 
+                           WHERE email = '$email'";
+            $result = $conn->query($checkproend);
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+                $pro_end_date = $row['pro_end_date'];
+                
+                // Check pro_end: pro_end > today (end in the future) => pro_start = pro_end (old) / pro_end (new)
+                if ($pro_end_date > $today) {
+      
+                    if ($exetraData == 1) {
+                        $update_query = "UPDATE `app`.`users` 
+                        SET
+                        `pro_start_date` = '" . $pro_end_date . "',
+                        `pro_end_date` = DATE_ADD(pro_start_date, INTERVAL 1 MONTH),
+                        `last_payment` = CURRENT_TIMESTAMP
+                        WHERE
+                        email = '$email'";
+                        
+                        mysqli_query($conn, $update_query);
+                        
+                    }
+
+                    if ($exetraData == 6) {
+                        $update_query = "UPDATE `app`.`users` 
+                        SET
+                        `pro_start_date` = '" . $pro_end_date . "',
+                        `pro_end_date` = DATE_ADD(pro_start_date, INTERVAL 6 MONTH),
+                        `last_payment` = CURRENT_TIMESTAMP
+                        WHERE
+                        email = '$email'";
+                        
+                        mysqli_query($conn, $update_query);
+                    }
+                }
+                // Check pro_end: pro_end <= today (ended) => pro_start = today / pro_end (new)
+                elseif ($pro_end_date <= $today) {
+                    if ($exetraData == 1) {
+                        $update_query = "UPDATE `app`.`users` 
+                        SET
+                        `pro_start_date` = CURRENT_TIMESTAMP,
+                        `pro_end_date` = DATE_ADD(pro_start_date, INTERVAL 1 MONTH),
+                        `last_payment` = CURRENT_TIMESTAMP
+                        WHERE
+                        email = '$email'";
+                        
+                        mysqli_query($conn, $update_query);
+                    }
+        
+                    if ($exetraData == 6) {
+                        $update_query = "UPDATE `app`.`users` 
+                        SET
+                        `pro_start_date` = CURRENT_TIMESTAMP,
+                        `pro_end_date` = DATE_ADD(pro_start_date, INTERVAL 6 MONTH),
+                        `last_payment` = CURRENT_TIMESTAMP
+                        WHERE
+                        email = '$email'";
+                        
+                        mysqli_query($conn, $update_query);
+                    }
+                } 
+                else {
+                    echo "\n\n end today";
+                }
+            } else {
+                echo "No results found.";
+            }
+            
+        }
+        header("Location: ../../thank.php");
+
+    }   
 else {
-    echo "Giao dịch thất bại";
+    echo "Transaction failed";
 }
+
 // Logic : 
 // * Nếu tài khoản tạo mới :
 // free -> pro / { pro_start_date = currenttime  / pro_end_date = pro_start_date + extraData(1 or 6) }

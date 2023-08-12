@@ -81,7 +81,7 @@ $end_date = $_SESSION['end_date'];
       <li class="menu-buttons" id="clear-all-chats"><a href="#" onclick="clearChat('all')"><img src="img/icon-trash.svg"> <span>Clear All Chats</span></a></li>
       <li class="menu-buttons" id="download-chat"><a href="#" onclick="handleDownload()"><img src="img/icon-download.svg"> <span>Download Chat</span></a></li>
 
-      <li class="menu-buttons" id="payment"><a href="http://localhost/chatGPT/payment_page/payment.php" onclick="#"><img src="img/icon-download.svg"> <span>Nâng cấp</span></a></li>
+      <li class="menu-buttons" id="payment"><a href="http://localhost/chatGPT2/payment_page/payment.php" onclick="#"><img src="img/icon-download.svg"> <span>Nâng cấp</span></a></li>
     </ul>
 
     <ul class="horizontal mobile-menu-toogle menu float-right">

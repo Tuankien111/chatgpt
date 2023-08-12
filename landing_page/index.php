@@ -60,10 +60,10 @@
                             <a class="nav-link scroll" href="#contact" style="color: #FFFFFF">Liên hệ</a>
                         </li>
                         <li class="nav-item">
-                            <a id ="signup-hover" class="nav-link " href="http://localhost/chatGPT/login_page/ltr/register.php" style="color: #FFFFFF">Đăng ký</a>
+                            <a id ="signup-hover" class="nav-link " href="http://localhost/chatGPT2/login_page/ltr/register.php" style="color: #FFFFFF">Đăng ký</a>
                         </li>
                         <li class="nav-item">
-                            <a id="signin-hover" class="nav-link " href="http://localhost/chatGPT/login_page/ltr/login.php" style="color: #FFFFFF">Đăng nhập</a>
+                            <a id="signin-hover" class="nav-link " href="http://localhost/chatGPT2/login_page/ltr/login.php" style="color: #FFFFFF">Đăng nhập</a>
                         </li>
                     </ul>
                 </nav>

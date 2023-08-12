@@ -60,8 +60,9 @@
                         // Check if the free trial has expired
                         $current_time = date('Y-m-d H:i:s');
                         if ($current_time > $free_trial_end_date) {
-                            // Free trial has expired
-                            echo "Your free trial has expired. Please upgrade to a pro user package.";
+                            // Free trial has expired   
+                            header("Location: ../../../unapp.php");
+                            echo "<script>alert('Your free trial has expired. Please upgrade to a pro user package.');</script>";
                         } else {
                             // Free trial is still active
                             $name = $user['name'];
@@ -81,7 +82,8 @@
                         $current_time = date('Y-m-d H:i:s');
                         if ($current_time > $pro_end_date) {
                             // Pro package has expired
-                            echo "Your pro package has expired. Please upgrade to extend your subscription.";
+                            header("Location: ../../../unapp.php");
+                            echo "<script>alert('Your free trial has expired. Please upgrade to a pro user package.');</script>";
                         } else {
                             // Pro package is still active
                             $name = $user['name'];

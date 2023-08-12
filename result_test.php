@@ -19,9 +19,9 @@ $conn = mysqli_init();
     $email = "tuankien@gmail.com";
 
 
-// Kiểm tra kết quả giao dịch $_GET['resultCode']
+
     if($resultCode == 0) {
-        // Nếu giao dịch thành công => Kiểm tra account_type 
+
         if($account_type == "FREE") {
             // Nếu là người dùng free => kiểm tra gói nâng cấp 
             if ($exetraData == 1) {
@@ -52,54 +52,53 @@ $conn = mysqli_init();
         }
         
         else {
-            // Nếu người dùng pro => Kiểm tra pro_end_date cũ 
-            $today = new DateTime('today');
+            $today = date('Y-m-d H:i:s');
             $checkproend = "SELECT `pro_end_date` 
                            FROM `users` 
                            WHERE email = '$email'";
             $result = $conn->query($checkproend);
             if ($result->num_rows > 0) {
                 $row = $result->fetch_assoc();
-                $proEndTimestamp = strtotime($row['pro_end_date']);
-                $today = new DateTime('today');
-                $proEndDateTime = new DateTime();
-                $proEndDateTime->setTimestamp($proEndTimestamp);
+                $pro_end_date = $row['pro_end_date'];
+                echo $pro_end_date;
             
-                // Nếu pro_end > ngày hiện tại => pro_start = pro_end (cũ) /  pro_end (mới) = pro_start + extraData (1 or 6 tháng)
-                if ($proEndDateTime > $today) {
-                    // $updateSql = "UPDATE your_table SET pro_start = '" . $row['pro_end'] . "' WHERE ...";
+                if ($pro_end_date > $today) {
+      
                     if ($exetraData == 1) {
                         $update_query = "UPDATE `laravel`.`users` 
                         SET
-                        `pro_start_date` = '" . $row['pro_end_date'] . "',
+                        `pro_start_date` = '" . $pro_end_date . "',
                         `pro_end_date` = DATE_ADD(pro_start_date, INTERVAL 1 MONTH),
                         `last_payment` = CURRENT_TIMESTAMP
                         WHERE
                         email = '$email'";
+                        
                         mysqli_query($conn, $update_query);
                     }
-        
+
                     if ($exetraData == 6) {
                         $update_query = "UPDATE `laravel`.`users` 
                         SET
-                        `pro_start_date` = '" . $row['pro_end_date'] . "',
+                        `pro_start_date` = '" . $pro_end_date . "',
                         `pro_end_date` = DATE_ADD(pro_start_date, INTERVAL 6 MONTH),
                         `last_payment` = CURRENT_TIMESTAMP
                         WHERE
                         email = '$email'";
+                        
                         mysqli_query($conn, $update_query);
                     }
                 }
                 // Nếu pro_end < ngày hiện tại => pro_start = $today / pro_end = pro_start + extraData (1 or 6 tháng) 
-                elseif ($proEndDateTime < $today) {
+                elseif ($pro_end_date <= $today) {
                     if ($exetraData == 1) {
                         $update_query = "UPDATE `laravel`.`users` 
                         SET
                         `pro_start_date` = CURRENT_TIMESTAMP,
-                        `pro_end_date` = DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 1 MONTH),
+                        `pro_end_date` = DATE_ADD(pro_start_date, INTERVAL 1 MONTH),
                         `last_payment` = CURRENT_TIMESTAMP
                         WHERE
                         email = '$email'";
+                        
                         mysqli_query($conn, $update_query);
                     }
         
@@ -107,43 +106,26 @@ $conn = mysqli_init();
                         $update_query = "UPDATE `laravel`.`users` 
                         SET
                         `pro_start_date` = CURRENT_TIMESTAMP,
-                        `pro_end_date` = DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 6 MONTH),
+                        `pro_end_date` = DATE_ADD(pro_start_date, INTERVAL 6 MONTH),
                         `last_payment` = CURRENT_TIMESTAMP
                         WHERE
                         email = '$email'";
+                        
                         mysqli_query($conn, $update_query);
                     }
                 } 
                 else {
-                    if ($exetraData == 1) {
-                        $update_query = "UPDATE `laravel`.`users` 
-                        SET
-                        `pro_start_date` = CURRENT_TIMESTAMP,
-                        `pro_end_date` = DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 1 MONTH),
-                        `last_payment` = CURRENT_TIMESTAMP
-                        WHERE
-                        email = '$email'";
-                        mysqli_query($conn, $update_query);
-                    }
-        
-                    if ($exetraData == 6) {
-                        $update_query = "UPDATE `laravel`.`users` 
-                        SET
-                        `pro_start_date` = CURRENT_TIMESTAMP,
-                        `pro_end_date` = DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 6 MONTH),
-                        `last_payment` = CURRENT_TIMESTAMP
-                        WHERE
-                        email = '$email'";
-                        mysqli_query($conn, $update_query);
-                    }
+                    echo "\n\n end today";
                 }
             } else {
                 echo "No results found.";
             }
             
+        
+        
         }
 }   
 else {
-    echo "Giao dịch thất bại";
+    echo "Transaction failed";
 }
 ?> 
